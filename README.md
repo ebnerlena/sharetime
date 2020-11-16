@@ -3,6 +3,10 @@
 
 ## Social Networking App
 
-Started working in Andoird Studio using Constraint layouts and view binding
+1. Started working in Android Studio using Constraint layouts and view binding  
 Using intents to achieve different actions like starting a second activity, sharing some text or viewing my Website.  
 
+2. Using Fragments instead of Activities - Fragments get exchange in one mainactivity
+Navigation haben with supportFragmentmanager - transactions
+
+3. Navcontroller

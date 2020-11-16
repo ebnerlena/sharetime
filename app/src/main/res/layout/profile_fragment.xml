@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/profile_picture"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@drawable/amy"
+        />
+
+    <TextView
+        android:id="@+id/post_nr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="999"
+        android:textAppearance="@style/fame_nrs_bold"
+        app:layout_constraintBottom_toTopOf="@id/posts"
+        app:layout_constraintEnd_toEndOf="@id/posts"
+        app:layout_constraintLeft_toRightOf="@id/profile_picture"
+        app:layout_constraintRight_toLeftOf="@id/followers_nr"
+        app:layout_constraintStart_toStartOf="@id/posts"
+        app:layout_constraintTop_toTopOf="@id/profile_picture" />
+
+    <TextView
+        android:id="@+id/posts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/posts_label"
+        android:textAppearance="@style/fame_nrs_label"
+        app:layout_constraintBottom_toBottomOf="@id/profile_picture"
+        app:layout_constraintEnd_toStartOf="@id/followers"
+        app:layout_constraintLeft_toRightOf="@id/profile_picture"
+        app:layout_constraintRight_toLeftOf="@id/followers"
+        app:layout_constraintStart_toEndOf="@id/profile_picture"
+        app:layout_constraintTop_toBottomOf="@id/post_nr" />
+
+
+    <TextView
+        android:id="@+id/followers_nr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1337"
+        android:layout_marginTop="20dp"
+        android:textAppearance="@style/fame_nrs_bold"
+        app:layout_constraintBottom_toTopOf="@id/followers"
+        app:layout_constraintEnd_toEndOf="@id/followers"
+        app:layout_constraintLeft_toRightOf="@id/posts"
+        app:layout_constraintRight_toLeftOf="@id/following_nr"
+        app:layout_constraintStart_toStartOf="@id/followers"
+        app:layout_constraintTop_toTopOf="@id/profile_picture" />
+
+    <TextView
+        android:id="@+id/followers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/followers_label"
+        android:textAppearance="@style/fame_nrs_label"
+        app:layout_constraintEnd_toStartOf="@id/following"
+        app:layout_constraintStart_toEndOf="@id/posts"
+        app:layout_constraintBottom_toBottomOf="@id/profile_picture"
+        app:layout_constraintLeft_toRightOf="@id/posts"
+        app:layout_constraintRight_toLeftOf="@id/following"
+        app:layout_constraintTop_toBottomOf="@id/followers_nr" />
+
+    >
+    <TextView
+        android:id="@+id/following_nr"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="42"
+        android:textAppearance="@style/fame_nrs_bold"
+        app:layout_constraintEnd_toEndOf="@id/following"
+        app:layout_constraintStart_toStartOf="@id/following"
+        app:layout_constraintBottom_toTopOf="@id/following"
+        app:layout_constraintLeft_toRightOf="@id/followers"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/profile_picture" />
+
+    <TextView
+        android:id="@+id/following"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/following_label"
+        android:textAlignment="center"
+        android:textAppearance="@style/fame_nrs_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/followers"
+        app:layout_constraintBottom_toBottomOf="@id/profile_picture"
+        app:layout_constraintLeft_toRightOf="@id/followers"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/following_nr" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/edit_button_label"
+        app:layout_constraintTop_toTopOf="@id/following"
+        app:layout_constraintLeft_toRightOf="@id/followers"
+        app:srcCompat="@drawable/amy"
+        />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_name"
+        android:layout_marginTop="20dp"
+        android:textAppearance="@style/custom_headline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_picture" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="15sp"
+        android:textColor="@color/text_grey"
+        app:layout_constraintBottom_toTopOf="@id/something"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        tools:text="@tools:sample/lorem/random" />
+
+    <View
+        android:id="@+id/something"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FF8A93"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

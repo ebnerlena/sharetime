@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ShareTime</string>
-    <string name="name">\" Amy Potter\"</string>
+    <string name="user_name">Amy Potter</string>
+    <string name="followers_label">Followers</string>
+    <string name="following_label">Following</string>
+    <string name="posts_label">Posts</string>
+    <string name="edit_button_label">Edit</string>
 </resources>
