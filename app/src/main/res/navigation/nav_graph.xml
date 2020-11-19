@@ -9,13 +9,5 @@
         android:id="@+id/mainActivity"
         android:name="com.example.myapplication.MainActivity"
         android:label="activity_main"
-        tools:layout="@layout/activity_main" >
-        <action
-            android:id="@+id/editprofile"
-            app:destination="@id/editProfileActivity" />
-    </activity>
-    <activity
-        android:id="@+id/editProfileActivity"
-        android:name="com.example.myapplication.EditProfileActivity"
-        android:label="EditProfileActivity" />
+        tools:layout="@layout/activity_main" />
 </navigation>
