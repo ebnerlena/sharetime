@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.myapplication.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/home_fragment">
+
+        <action
+            android:id="@+id/home_to_profile"
+            app:destination="@id/profileFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment2"
+        android:name="com.example.myapplication.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/profile_fragment">
+        <argument
+            android:name="userId"
+            android:defaultValue="99"
+            app:argType="integer" />
+        <action
+            android:id="@+id/profile_to_edit_profile"
+            app:destination="@id/editProfileFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.myapplication.EditProfileFragment"
+        android:label="EditProfileFragment"
+        tools:layout="@layout/edit_profile_fragment">
+        <argument
+            android:name="username"
+            app:argType="string"
+            />
+    </fragment>
+</navigation>

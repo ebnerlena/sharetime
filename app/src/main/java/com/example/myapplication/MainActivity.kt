@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportFragmentManager.beginTransaction().run {
+        /*supportFragmentManager.beginTransaction().run {
             add(R.id.fragment_container, ProfileFragment())
             commit()
-        }
+        } */
 
         /*val options = navOptions {
             anim {
