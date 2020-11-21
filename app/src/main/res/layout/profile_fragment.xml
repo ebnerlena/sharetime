@@ -19,7 +19,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="15dp" />
 
-
     <ImageView
         android:id="@+id/profile_picture"
         android:layout_width="80dp"
@@ -87,7 +86,7 @@
         android:layout_height="wrap_content"
         android:text="42"
         android:textAppearance="@style/fame_nrs_bold"
-        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintEnd_toEndOf="@id/following"
         app:layout_constraintStart_toStartOf="@id/following"
         app:layout_constraintBottom_toTopOf="@id/following"
         app:layout_constraintTop_toTopOf="@id/profile_picture" />
