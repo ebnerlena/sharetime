@@ -9,4 +9,7 @@ Using intents to achieve different actions like starting a second activity, shar
 2. Using Fragments instead of Activities - Fragments get exchange in one mainactivity
 Navigation haben with supportFragmentmanager - transactions
 
-3. Navcontroller
+3. Navcontroller - using the NavController NavGraph for navigation between fragments 
+and pass typesafe arguments through navigation
+
+4. 

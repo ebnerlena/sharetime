@@ -5,27 +5,32 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.myapplication.databinding.ProfileFragmentBinding
 
 class ProfileFragment : Fragment(R.layout.profile_fragment) {
+
+    private val args: ProfileFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = ProfileFragmentBinding.bind(view)
 
-        binding.description.text = "This could be a useful description text about me. But it isn't. "
+        binding.run {
+            name.text = "Amy Potters ID:" + args.userId
+            description.text = "This could be a useful description text about me. But it isn't. "
 
-        binding.something.setOnClickListener{
-            it.setBackgroundColor(getRandomColor())
+            something.setOnClickListener{
+                it.setBackgroundColor(getRandomColor())
+            }
         }
 
         binding.editButton.setOnClickListener{
-            parentFragmentManager.beginTransaction().run {
-                replace(R.id.fragment_container, EditProfileFragment())
-                addToBackStack(null)
-                commit()
-            }
+
+            //Navigate with directions
+            findNavController().navigate(ProfileFragmentDirections.profileToEditProfile("Harry Potter"))
         }
     }
 
