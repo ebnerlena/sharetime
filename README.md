@@ -12,4 +12,4 @@ Navigation haben with supportFragmentmanager - transactions
 3. Navcontroller - using the NavController NavGraph for navigation between fragments 
 and pass typesafe arguments through navigation
 
-4. 
+4. Recyclerview - ListAdapter -> to display lists in linear layout or grid
