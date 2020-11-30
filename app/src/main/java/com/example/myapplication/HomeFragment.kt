@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.myapplication.databinding.HomeFragmentBinding
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
@@ -12,17 +13,11 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding =  HomeFragmentBinding.bind(view)
+        val adapter = PostAdapter()
 
-        binding.run {
-            actionNav.setOnClickListener {
-                findNavController().navigate(R.id.home_to_profile);
-            }
-            directionNav.setOnClickListener {
-                findNavController().navigate(HomeFragmentDirections.homeToProfile(9))
-            }
-            anotherNav.setOnClickListener {
-                findNavController().navigate(HomeFragmentDirections.homeToProfile(13))
-            }
-        }
+        binding.postList.adapter = adapter
+
+        val list = adapter.currentList + listOf(1,2,3,4,5)
+        adapter.submitList(list)
     }
 }
