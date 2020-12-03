@@ -7,21 +7,25 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.example.myapplication.databinding.ProfileFragmentBinding
 
 class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
     private val args: ProfileFragmentArgs by navArgs()
+    private val adapter = PostAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = ProfileFragmentBinding.bind(view)
 
+
         binding.run {
-            name.text = "Amy Potters ID:" + args.userId
+            name.text = adapter.fakePosts[args.userId-1].userName + " " +args.userId
             description.text = "This could be a useful description text about me. But it isn't. "
 
+            profilePicture.load(adapter.fakePosts[args.userId-1].profileImage)
             something.setOnClickListener{
                 it.setBackgroundColor(getRandomColor())
             }
@@ -30,7 +34,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
         binding.editButton.setOnClickListener{
 
             //Navigate with directions
-            findNavController().navigate(ProfileFragmentDirections.profileToEditProfile("Harry Potter"))
+            findNavController().navigate(ProfileFragmentDirections.profileToEditProfile(adapter.fakePosts[args.userId-1].userName))
         }
     }
 
