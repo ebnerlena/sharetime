@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.lenaebner.sharetime
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.example.myapplication.databinding.SinglePostBinding
+import com.lenaebner.sharetime.databinding.SinglePostBinding
 
 class PostAdapter : ListAdapter<Int, PostAdapter.PostViewHolder>(DIFF_UTIL) {
 
@@ -55,9 +55,11 @@ class PostAdapter : ListAdapter<Int, PostAdapter.PostViewHolder>(DIFF_UTIL) {
             likes = 10,
             comments = 20
         ),
+    )
 
-
-        )
+    /*init {
+        submitList(fakePosts)
+    } */
 
     fun getListCount():Int{
         return fakePosts.size

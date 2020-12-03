@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.lenaebner.sharetime
 
 data class PostData (
     val userId: Int,

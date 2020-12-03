@@ -1,6 +1,5 @@
-package com.example.myapplication
+package com.lenaebner.sharetime
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -8,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.example.myapplication.databinding.ProfileFragmentBinding
+import com.lenaebner.sharetime.databinding.ProfileFragmentBinding
 
 class ProfileFragment : Fragment(R.layout.profile_fragment) {
 

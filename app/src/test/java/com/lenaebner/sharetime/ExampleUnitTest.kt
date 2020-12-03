@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.lenaebner.sharetime
 
 import org.junit.Test
 

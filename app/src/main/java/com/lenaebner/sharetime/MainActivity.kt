@@ -1,18 +1,8 @@
-package com.example.myapplication
+package com.lenaebner.sharetime
 
-import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.navigation.findNavController
-import androidx.navigation.navOptions
-import com.example.myapplication.databinding.ActivityMainBinding
-import kotlin.random.Random
+import com.lenaebner.sharetime.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

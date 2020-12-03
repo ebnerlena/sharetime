@@ -1,10 +1,10 @@
-package com.example.myapplication
+package com.lenaebner.sharetime
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.example.myapplication.databinding.NameBinding
+import com.lenaebner.sharetime.databinding.NameBinding
 import java.lang.IllegalStateException
 
 class NameAdapter: RecyclerView.Adapter<NameAdapter.MultiViewHolder>() {

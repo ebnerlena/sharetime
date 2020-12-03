@@ -1,11 +1,9 @@
-package com.example.myapplication
+package com.lenaebner.sharetime
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.myapplication.databinding.HomeFragmentBinding
+import com.lenaebner.sharetime.databinding.HomeFragmentBinding
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
 

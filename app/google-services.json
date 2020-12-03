@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "305602626409",
+    "project_id": "sharetime-le",
+    "storage_bucket": "sharetime-le.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305602626409:android:f04d48c7d560b97bab33f8",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305602626409-vr38am7leh2j3rgvqjvigpf8jugo6e2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1c90CaBnctnRLRRGXct_D2yS57USivWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305602626409-vr38am7leh2j3rgvqjvigpf8jugo6e2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

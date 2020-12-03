@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.lenaebner.sharetime
 
 import android.os.Bundle
 import android.view.View
@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.GrayscaleTransformation
-import com.example.myapplication.databinding.PostAdapterFragmentBinding
-import kotlinx.coroutines.withContext
+import com.lenaebner.sharetime.databinding.PostAdapterFragmentBinding
 
 class PostAdapterFragment : Fragment(R.layout.post_adapter_fragment) {
 
