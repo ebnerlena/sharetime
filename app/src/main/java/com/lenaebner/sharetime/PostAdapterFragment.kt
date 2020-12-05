@@ -22,15 +22,14 @@ class PostAdapterFragment : Fragment(R.layout.post_adapter_fragment) {
         binding.run {
 
 
-
         }
-        binding.numberList.adapter = adapter
+     /*   binding.numberList.adapter = adapter
         binding.numberList.addItemDecoration(
             DividerItemDecoration(
                 context,
                DividerItemDecoration.VERTICAL
             )
-        )
+        ) */
 
         binding.addNumber.setOnClickListener {
             val new = adapter.currentList + listOf(adapter.itemCount + 1)
