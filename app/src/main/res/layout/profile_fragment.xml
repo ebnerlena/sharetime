@@ -28,8 +28,7 @@
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        android:src="@drawable/amy"
-        />
+        tools:src="@drawable/amy" />
 
     <TextView
         android:id="@+id/post_nr"
@@ -129,26 +128,29 @@
     <TextView
         android:id="@+id/description"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:textSize="15sp"
         android:textColor="@color/text_grey"
-        app:layout_constraintBottom_toTopOf="@id/something"
+        app:layout_constraintBottom_toTopOf="@id/post_list"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/name"
-        tools:text="@tools:sample/lorem/random" />
+        tools:text="@tools:sample/lorem" />
 
-    <View
-        android:id="@+id/something"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/post_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#FF8A93"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        app:layout_constraintTop_toBottomOf="@id/description" />
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        tools:listitem="@layout/single_post"
+        />
 
  x
 </androidx.constraintlayout.widget.ConstraintLayout>

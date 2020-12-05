@@ -29,12 +29,12 @@ class PostAdapterFragment : Fragment(R.layout.post_adapter_fragment) {
                 context,
                DividerItemDecoration.VERTICAL
             )
-        ) */
+        )
 
         binding.addNumber.setOnClickListener {
             val new = adapter.currentList + listOf(adapter.itemCount + 1)
             adapter.submitList(new)
-        }
+        } */
 
         binding.img
             .load("https://cdn.pixabay.com/photo/2017/06/26/18/33/mountain-2444712_1280.jpg") {

@@ -21,9 +21,9 @@
         android:label="ProfileFragment"
         tools:layout="@layout/profile_fragment">
         <argument
-            android:name="userId"
-            android:defaultValue="99"
-            app:argType="integer" />
+            android:name="username"
+            android:defaultValue="Lena"
+            app:argType="string" />
         <action
             android:id="@+id/profile_to_edit_profile"
             app:destination="@id/editProfileFragment"
