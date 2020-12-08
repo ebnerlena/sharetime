@@ -12,10 +12,6 @@ import com.lenaebner.sharetime.databinding.SinglePostBinding
 
 class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
 
-    fun getListCount():Int{
-        return currentList.size
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = SinglePostBinding.inflate(layoutInflater, parent, false)
@@ -23,7 +19,7 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = currentList[position]
+        val post = getItem(position)
         holder.bind(post)
     }
 
@@ -57,11 +53,11 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
                 }
 
                 profileImg.setOnClickListener {
-                    it.findNavController().navigate(HomeFragmentDirections.homeToProfile(post.author.fullName))
+                    it.findNavController().navigate(HomeFragmentDirections.homeToProfile(post.author.fullName,post.author.uid))
                 }
 
                 userName.setOnClickListener {
-                    it.findNavController().navigate(HomeFragmentDirections.homeToProfile(post.author.fullName))
+                    it.findNavController().navigate(HomeFragmentDirections.homeToProfile(post.author.fullName, post.author.uid))
                 }
             }
         }
