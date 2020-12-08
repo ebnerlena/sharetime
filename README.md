@@ -13,3 +13,5 @@ Navigation haben with supportFragmentmanager - transactions
 and pass typesafe arguments through navigation
 
 4. Recyclerview - ListAdapter -> to display lists in linear layout or grid
+
+5. Read data from firebase firestore - display data on homefragment and in profile

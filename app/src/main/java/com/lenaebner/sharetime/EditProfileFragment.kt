@@ -6,11 +6,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import coil.load
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.ktx.Firebase
 import com.lenaebner.sharetime.databinding.EditProfileFragmentBinding
 
 class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
 
     private val arguments: EditProfileFragmentArgs by navArgs()
+    private var user = Person()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -18,10 +24,16 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
 
         val binding = EditProfileFragmentBinding.bind(view)
 
-        binding.run {
-            name.text = arguments.username
+        val users = Firebase.firestore.collection("users")
+        val me = users.document(arguments.userId).get().addOnSuccessListener { value ->
+            val user = value.toObject<Person>()
 
-            description.text = " This could be your description tap to edit now"
+            binding.run {
+                name.text = user?.fullName
+                profilePicture.load(user?.profilePicture)
+
+                description.text = " This could be your description tap to edit now"
+            }
         }
 
         val websiteIntent = Intent().apply {

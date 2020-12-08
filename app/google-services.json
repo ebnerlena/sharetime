@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:305602626409:android:f04d48c7d560b97bab33f8",
         "android_client_info": {
-          "package_name": "com.example.myapplication"
+          "package_name": "com.lenaebner.sharetime"
         }
       },
       "oauth_client": [
