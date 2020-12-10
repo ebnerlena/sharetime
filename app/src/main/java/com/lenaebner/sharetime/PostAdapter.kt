@@ -59,6 +59,10 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
                 userName.setOnClickListener {
                     it.findNavController().navigate(HomeFragmentDirections.homeToProfile(post.author.fullName, post.author.uid))
                 }
+
+                commentImg.setOnClickListener {
+                    it.findNavController().navigate(HomeFragmentDirections.homeToComments(post.author.uid, post.text))
+                }
             }
         }
     }

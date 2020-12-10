@@ -14,6 +14,9 @@
         <action
             android:id="@+id/home_to_profile"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/home_to_comments"
+            app:destination="@id/commentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -41,5 +44,21 @@
             android:name="userId"
             app:argType="string"
             />
+    </fragment>
+    <fragment
+        android:id="@+id/commentsFragment"
+        android:name="com.lenaebner.sharetime.CommentsFragment"
+        android:label="Comments"
+        tools:layout="@layout/comments_fragment">
+        <argument
+            android:name="userId"
+            app:argType="string"
+            />
+        <argument
+            android:name="posttext"
+            app:argType="string" />
+        <action
+            android:id="@+id/comment_to_profile"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>
