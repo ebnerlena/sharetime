@@ -11,5 +11,6 @@
     <color name="light_grey">#DFD5D5</color>
     <color name="primaryColor">#009688</color>
     <color name="secondaryolor">#2ED6C7</color>
-    <color name="accentColor">#B5771B</color>
+    <color name="accentColor">#E39C34</color>
+    <color name="inactive">#DAFAF8F8</color>
 </resources>

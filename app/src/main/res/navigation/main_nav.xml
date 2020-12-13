@@ -3,20 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.lenaebner.sharetime.HomeFragment"
         android:label="Home"
         tools:layout="@layout/home_fragment">
-
+        <argument
+            android:name="userId"
+            app:argType="string" />
         <action
             android:id="@+id/home_to_profile"
             app:destination="@id/profileFragment" />
         <action
             android:id="@+id/home_to_comments"
             app:destination="@id/commentsFragment" />
+        <action
+            android:id="@+id/home_to_new_post"
+            app:destination="@id/newPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -34,16 +39,22 @@
         <argument
             android:name="userId"
             app:argType="string" />
+        <action
+            android:id="@+id/profile_to_login"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.lenaebner.sharetime.EditProfileFragment"
-        android:label="{username}"
+        android:label="Edit Profile"
         tools:layout="@layout/edit_profile_fragment">
         <argument
             android:name="userId"
             app:argType="string"
             />
+        <action
+            android:id="@+id/edit_to_profile"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/commentsFragment"
@@ -60,5 +71,27 @@
         <action
             android:id="@+id/comment_to_profile"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.lenaebner.sharetime.LoginFragment"
+        tools:layout="@layout/login_fragment"
+        android:label="Login" >
+        <action
+            android:id="@+id/login_to_home"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/login_to_edit_profile"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newPostFragment"
+        android:name="com.lenaebner.sharetime.NewPostFragment"
+        android:label="NewPostFragment"
+        tools:layout="@layout/new_post_fragment">
+
+        <action
+            android:id="@+id/new_post_submit"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

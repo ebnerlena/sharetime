@@ -21,10 +21,11 @@
 
     <ImageView
         android:id="@+id/profile_picture"
-        android:layout_width="60dp"
+        android:layout_width="70dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="20dp"
+        android:scaleType="centerInside"
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -111,16 +112,26 @@
         android:layout_marginTop="40dp"
         android:text="@string/edit_button_label"
         app:layout_constraintTop_toTopOf="@id/following"
-        app:layout_constraintLeft_toRightOf="@id/followers"
-        app:srcCompat="@drawable/amy"
+        app:layout_constraintStart_toEndOf="@id/followers"
+        />
+    <Button
+        android:id="@+id/followButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:visibility="invisible"
+        android:text="@string/follow_button_label"
+        app:layout_constraintTop_toTopOf="@id/following"
+        app:layout_constraintStart_toEndOf="@id/name"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
         />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/user_name"
         android:layout_marginTop="20dp"
+        tools:text="@tools:sample/lorem"
         android:textAppearance="@style/custom_headline"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/profile_picture" />

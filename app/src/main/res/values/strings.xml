@@ -5,4 +5,8 @@
     <string name="following_label">Following</string>
     <string name="posts_label">Posts</string>
     <string name="edit_button_label">Edit</string>
+    <string name="follow_button_label">Follow</string>
+    <string name="unfollow_button_label">Unfollow</string>
+    <string name="email">xy.1234@gmx.at</string>
+    <string name="password">DoNotUse1234!#-</string>
 </resources>

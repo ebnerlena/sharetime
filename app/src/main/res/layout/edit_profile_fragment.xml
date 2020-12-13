@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -22,56 +21,70 @@
 
         <ImageView
             android:id="@+id/profile_picture"
-            android:layout_width="80dp"
+            android:layout_width="200dp"
             android:layout_height="0dp"
             android:contentDescription="your Profile Image"
-            android:src="@drawable/amy"
             app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/name"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="@tools:sample/lorem"
-            android:layout_marginTop="20dp"
-            android:textAppearance="@style/custom_headline"
+            android:hint="Your Name"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:labelFor="@id/name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/profile_picture" />
+            app:layout_constraintBottom_toTopOf="@id/input_description"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture">
 
-        <TextView
-            android:id="@+id/description"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionSend"
+                    android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:textSize="15sp"
-            android:textColor="@color/text_grey"
-            app:layout_constraintBottom_toTopOf="@id/view_website"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            android:layout_height="wrap_content"
+            android:id="@+id/input_description"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:labelFor="@id/description"
+            android:overScrollMode="never"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            tools:text="@tools:sample/lorem" />
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/input_name"
+            app:layout_constraintBottom_toTopOf="@id/update"
+            android:hint="Description">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/description"
+                    android:elegantTextHeight="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:imeOptions="actionSend"
+                    android:inputType="textMultiLine" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/view_website"
+            android:id="@+id/update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View my Website"
-            app:layout_constraintBottom_toTopOf="@id/share_text"
+            android:text="Update Profile"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintTop_toBottomOf="@id/description" />
+            app:layout_constraintTop_toBottomOf="@id/input_description"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <Button
-            android:id="@+id/share_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Share the Text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintTop_toBottomOf="@id/share_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

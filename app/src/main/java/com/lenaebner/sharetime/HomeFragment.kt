@@ -2,7 +2,11 @@ package com.lenaebner.sharetime
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
@@ -17,17 +21,17 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         val adapter = PostAdapter()
         binding.postList.adapter = adapter
 
-         val db = Firebase.firestore
+        binding.addPhoto.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.homeToNewPost())
+        }
 
-        /*db.collection("posts").get().addOnSuccessListener {
-            val posts = it?.toObjects<Post>().orEmpty()
-            print(posts[0].text)
-            adapter.submitList(posts)
-        } */
+        val db = Firebase.firestore
+
 
        db.collection("posts").orderBy("timestamp").addSnapshotListener{ value, error ->
             val posts = value?.toObjects<Post>().orEmpty()
            adapter.submitList(posts)
         }
     }
+
 }
