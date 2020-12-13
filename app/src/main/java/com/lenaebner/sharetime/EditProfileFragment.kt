@@ -21,7 +21,6 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
 
     private val arguments: EditProfileFragmentArgs by navArgs()
     private val db = Firebase.firestore.collection("users")
-    private var user = Person()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,24 +47,5 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
 
             }
         }
-
-      /*  val websiteIntent = Intent().apply {
-            action = Intent.ACTION_VIEW
-            setData(Uri.parse("https://www.lenaebner.com"))
-        }
-
-        val sendIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "Text/plain"
-            putExtra(Intent.EXTRA_TEXT, "Hey du")
-        }
-
-        binding.shareText.setOnClickListener{
-            startActivity(sendIntent)
-        }
-
-        binding.viewWebsite.setOnClickListener{
-            startActivity(websiteIntent)
-        } */
     }
 }

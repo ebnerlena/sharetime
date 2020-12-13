@@ -36,14 +36,14 @@ class MainActivity : AppCompatActivity() {
         nav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         val profile = nav.menu.findItem(R.id.profile)
 
-        Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid.orEmpty()).get().addOnSuccessListener { value ->
+       /* Firebase.firestore.collection("users").document(Firebase.auth.currentUser?.uid.orEmpty()).get().addOnSuccessListener { value ->
             val user = value.toObject<Person>()
 
             if(user?.profilePicture != "") {
                 //geeeeeht ned
                 //profile.icon.load(user?.profilePicture).into(profile.icon)
             }
-        }
+        } */
 
     }
 

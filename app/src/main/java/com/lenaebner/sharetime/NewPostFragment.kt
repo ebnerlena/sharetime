@@ -1,5 +1,6 @@
 package com.lenaebner.sharetime
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
                     author?.uid = Firebase.auth.currentUser?.uid.orEmpty()
                     var user = value.toObject<Person>()
                     val des = description.text.toString()
+
                     val post = author?.let { it -> Post("https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828_960_720.jpg", it, des) }
 
                     if (post != null) {
@@ -40,9 +42,9 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
                     }
                 }
 
-
                 findNavController().navigate(R.id.homeFragment)
             }
         }
     }
+
 }

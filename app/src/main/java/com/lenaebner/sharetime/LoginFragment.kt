@@ -58,6 +58,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
         val authIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
+                .setTheme(R.style.LoginTheme)
             .build()
 
         startActivityForResult(authIntent, REQUEST_CODE)
@@ -92,7 +93,6 @@ class LoginFragment : Fragment(R.layout.login_fragment){
                     }
                     else {
                         findNavController().navigate(LoginFragmentDirections.loginToHome(userId))
-
                     }
                 }
             }
@@ -102,4 +102,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
         }
     }
 
+    private fun setupBottomNavigation() {
+        //if user has profile image set it as icon in bottom navigatino
+    }
 }

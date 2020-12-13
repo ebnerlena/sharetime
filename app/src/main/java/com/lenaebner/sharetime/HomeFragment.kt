@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
@@ -27,11 +28,11 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
 
         val db = Firebase.firestore
 
-
-       db.collection("posts").orderBy("timestamp").addSnapshotListener{ value, error ->
+       db.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING).addSnapshotListener{ value, error ->
             val posts = value?.toObjects<Post>().orEmpty()
            adapter.submitList(posts)
         }
     }
+
 
 }

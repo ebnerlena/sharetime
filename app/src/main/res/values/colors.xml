@@ -10,7 +10,7 @@
     <color name="text_grey">#7E7E7E</color>
     <color name="light_grey">#DFD5D5</color>
     <color name="primaryColor">#009688</color>
-    <color name="secondaryolor">#2ED6C7</color>
+    <color name="secondarColor">#2ED6C7</color>
     <color name="accentColor">#E39C34</color>
     <color name="inactive">#DAFAF8F8</color>
 </resources>

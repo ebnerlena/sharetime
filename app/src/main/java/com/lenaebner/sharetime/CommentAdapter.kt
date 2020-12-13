@@ -14,7 +14,11 @@ class CommentAdapter  : ListAdapter<Comment, CommentAdapter.CommentViewHolder>(D
             RecyclerView.ViewHolder(binding.root) {
                 fun bindComment(comment: Comment) {
                     binding.comment.text = comment.text
-                    binding.profileImg.load(comment.author.profilePicture)
+                    var profileImg = comment.author.profilePicture
+                    if(profileImg == "null"){
+                        profileImg = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                    }
+                    binding.profileImg.load(profileImg)
                     binding.userName.text = comment.author.fullName
                 }
             }

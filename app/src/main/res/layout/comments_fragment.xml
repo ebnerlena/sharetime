@@ -110,19 +110,23 @@
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/comments_list"
         app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="99dp">
+        android:labelFor="@id/comment_input"
+        android:hint="What do you think about this post?">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="whats on your mind?" />
+            android:id="@+id/comment_input"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="50dp"
         android:layout_height="40dp"
         android:id="@+id/submit"
+        android:layout_marginRight="8dp"
         app:icon="@drawable/send"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintBottom_toBottomOf="@id/new_comment_input" />
