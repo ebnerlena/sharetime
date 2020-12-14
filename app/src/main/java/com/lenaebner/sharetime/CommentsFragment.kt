@@ -30,71 +30,61 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
         val adapter = CommentAdapter()
         binding.commentsList.adapter = adapter
 
-        db.collection("users").document(args.userId).get().addOnSuccessListener {
-            val user = it?.toObject<Author>();
+        val currentUser = Firebase.auth.currentUser
 
-            var post = Post()
-            db.collection("posts").whereEqualTo("text", args.posttext).addSnapshotListener {value, _ ->
-                val posts = value?.toObjects<Post>().orEmpty()
-                post = posts[0]
+        if(currentUser == null) {
+            findNavController().navigate(CommentsFragmentDirections.commentsToLogin())
+        }
 
-                var commentsList = mutableListOf<Comment>()
-                for (comment in post.comments) {
-                    db.collection("comments").document(comment.id).get().addOnSuccessListener { value ->
-                        var c = value.toObject<Comment>()!!
-                        commentsList.add(c)
+        db.collection("users").document(currentUser?.uid.toString()).addSnapshotListener { value, _ ->
+            val user = value?.toObject<Author>() !!
+
+            db.collection("posts").document(args.postId).addSnapshotListener { p, _ ->
+                val post = p?.toObject<Post>()
+
+                binding.run {
+                    description.text = post?.text
+                    userName.text = post?.author?.fullName
+                    profileImg.load(post?.author?.profilePicture) {
+                        fallback(R.drawable.person)
                     }
-                }
-                adapter.submitList(commentsList)
-                binding.commentsList.smoothScrollToPosition(commentsList.size)
-            }
 
-            binding.run {
-                description.text = args.posttext
+                    val name = user.fullName.orEmpty()
+                    userName.setOnClickListener {
+                        findNavController().navigate(CommentsFragmentDirections.commentsToProfile(name, user.uid))
+                    }
+                    profileImg.load(user?.profilePicture) {
+                        transformations(CircleCropTransformation())
+                    }
+                    profileImg.setOnClickListener {
+                        findNavController().navigate(CommentsFragmentDirections.commentsToProfile(name, user.uid))
+                    }
 
-                userName.text = user?.fullName
-                val name = user?.fullName.orEmpty()
-                userName.setOnClickListener {
-                    findNavController().navigate(CommentsFragmentDirections.commentToProfile(name, args.userId))
-                }
-                profileImg.load(user?.profilePicture) {
-                    transformations(CircleCropTransformation())
-                }
-                profileImg.setOnClickListener {
-                    findNavController().navigate(CommentsFragmentDirections.commentToProfile(name, args.userId))
-                }
-
-                submit.setOnClickListener {
-                    val commentText = binding.commentInput.text.toString()
-                    if(commentText != "") {
-                        addComment(post, commentText)
-                        binding.commentInput.text?.clear()
-                        binding.commentInput.clearFocus()
+                    submit.setOnClickListener {
+                        val commentText = binding.commentInput.text.toString()
+                        if(commentText != "") {
+                            addComment(user, commentText)
+                            binding.commentInput.text?.clear()
+                            binding.commentInput.clearFocus()
+                        }
                     }
                 }
             }
+
+            db.collection("posts").document(args.postId).collection("comments").addSnapshotListener {c, _ ->
+                val comments = c?.toObjects<Comment>().orEmpty()
+                adapter.submitList(comments)
+                binding.commentsList.smoothScrollToPosition(comments.size)
+            }
+
         }
     }
 
-    private fun addComment(post: Post, commentText:String) {
 
-        var newComment = Comment()
-        val currentUser = Firebase.auth.currentUser
+    private fun addComment(author: Author, commentText:String) {
 
-        db.collection("users").document(currentUser?.uid.orEmpty()).get().addOnSuccessListener { value ->
-            val author = value.toObject<Author>()!!
-            author?.uid = currentUser?.uid.orEmpty()
+        val newComment = Comment(author, commentText)
+        db.collection("posts").document(args.postId).collection("comments").add(newComment)
 
-            newComment = Comment(author, commentText)
-
-            db.collection("comments").add(newComment).addOnSuccessListener { c ->
-
-                    db.collection("posts").whereEqualTo("timestamp", post.timestamp).get().addOnSuccessListener {
-                        db.collection("posts")
-                                .document(it.documents[0].id)
-                                .update("comments", FieldValue.arrayUnion(c))
-                    }
-                }
-            }
-        }
+    }
 }

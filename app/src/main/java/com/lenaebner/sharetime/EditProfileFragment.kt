@@ -19,16 +19,16 @@ import com.lenaebner.sharetime.databinding.EditProfileFragmentBinding
 
 class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
 
-    private val arguments: EditProfileFragmentArgs by navArgs()
     private val db = Firebase.firestore.collection("users")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = EditProfileFragmentBinding.bind(view)
+        val currentUser = Firebase.auth.currentUser
 
-        db.document(arguments.userId).get().addOnSuccessListener { value ->
-            val user = value.toObject<Person>()
+        db.document(currentUser?.uid.toString()).get().addOnSuccessListener { value ->
+            val user = value.toObject<Person>() !!
 
             binding.run {
 
@@ -39,12 +39,12 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
                 name.setText(user?.fullName)
 
                 update.setOnClickListener {
-                    val newProperties = mapOf("full_name" to name.text.toString(), "description" to description.text.toString())
-                    db.document(arguments.userId).update(newProperties)
-                    findNavController().navigate(EditProfileFragmentDirections.editToProfile(Firebase.auth.currentUser?.displayName.toString(), arguments.userId))
+                    user.fullName = name.text.toString()
+                    user.description = description.text.toString()
+
+                    db.document(currentUser?.uid.toString()).set(user)
+                    findNavController().navigate(EditProfileFragmentDirections.editToProfile(user.fullName, currentUser?.uid.toString()))
                 }
-
-
             }
         }
     }

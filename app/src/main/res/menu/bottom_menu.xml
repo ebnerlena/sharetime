@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content">
     <item
-        android:id="@+id/home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/home"
         android:title="Home"
         app:showAsAction="always"
@@ -18,7 +18,7 @@
         />
 
     <item
-        android:id="@+id/profile"
+        android:id="@+id/profileFragment"
         android:icon="@drawable/person"
         android:title="Profile"
         app:showAsAction="always">

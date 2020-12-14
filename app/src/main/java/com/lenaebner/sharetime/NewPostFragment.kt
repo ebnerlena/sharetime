@@ -20,24 +20,28 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
         super.onViewCreated(view, savedInstanceState)
         val binding = NewPostFragmentBinding.bind(view)
 
+        val currentUser = Firebase.auth.currentUser
+
+        if(currentUser == null) {
+            findNavController().navigate(NewPostFragmentDirections.newPostToLogin())
+        }
+
         binding.run {
             binding.postPicture.load("https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828_960_720.jpg")
             post.setOnClickListener {
 
-                db.collection("users").document(Firebase.auth.currentUser?.uid.orEmpty()).get().addOnSuccessListener { value ->
+                db.collection("users").document(currentUser?.uid.orEmpty()).get().addOnSuccessListener { value ->
                     val author = value.toObject<Author>()
-                    author?.uid = Firebase.auth.currentUser?.uid.orEmpty()
-                    var user = value.toObject<Person>()
+                    author?.uid = currentUser?.uid.orEmpty()
+                    var user = value.toObject<Person>()!!
                     val des = description.text.toString()
 
-                    val post = author?.let { it -> Post("https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828_960_720.jpg", it, des) }
+                    val post = author?.let { it -> Post("","https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828_960_720.jpg", it,des) }
 
                     if (post != null) {
                         db.collection("posts").add(post).addOnSuccessListener {
-
-                            db.collection("users").document(Firebase.auth.currentUser?.uid.orEmpty())
-                                .update( "posts", FieldValue.arrayUnion(it)
-                            )
+                            user.posts?.plus(it)
+                            db.collection("users").document(currentUser?.uid.orEmpty()).set(user)
                         }
                     }
                 }

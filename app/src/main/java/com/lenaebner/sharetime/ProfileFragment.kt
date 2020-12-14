@@ -104,10 +104,7 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
             editButton.setOnClickListener {
 
                 findNavController().navigate(
-                        ProfileFragmentDirections.profileToEditProfile(
-                                args.userId
-                        )
-                )
+                        ProfileFragmentDirections.profileToEditProfile()                        )
             }
         }
     }

@@ -47,8 +47,6 @@
         android:backgroundTint="@color/primaryColor"
         android:src="@drawable/add_photo"
         app:backgroundTint="@color/text_grey"
-        android:outlineAmbientShadowColor="@color/primaryColor"
-        android:outlineSpotShadowColor="@color/primaryColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

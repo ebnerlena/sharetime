@@ -61,7 +61,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
                 .setTheme(R.style.LoginTheme)
             .build()
 
-        startActivityForResult(authIntent, REQUEST_CODE)
+        startActivityForResult(authIntent, MainActivity.REQUEST_CODE)
     }
     private fun showError(message: String) =
         Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
@@ -73,7 +73,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == REQUEST_CODE) {
+        if(requestCode == MainActivity.REQUEST_CODE) {
             val response = IdpResponse.fromResultIntent(data)
 
             if (response == null) {
@@ -89,7 +89,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
                         val person = Person(response.user.name.toString(),"That's me: ", response.user.photoUri.toString())
                         db.document(userId).set(person)
 
-                        findNavController().navigate(LoginFragmentDirections.loginToEditProfile(userId))
+                        findNavController().navigate(LoginFragmentDirections.loginToEditProfile())
                     }
                     else {
                         findNavController().navigate(LoginFragmentDirections.loginToHome(userId))
@@ -100,9 +100,5 @@ class LoginFragment : Fragment(R.layout.login_fragment){
                 showError(response?.error?.message ?: "Something went wrong...")
             }
         }
-    }
-
-    private fun setupBottomNavigation() {
-        //if user has profile image set it as icon in bottom navigatino
     }
 }

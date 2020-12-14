@@ -4,9 +4,8 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.PropertyName
 data class Person(
         @JvmField @PropertyName("full_name") var fullName: String = "",
-        @JvmField @PropertyName("description" ) var description: String = "",
-        @JvmField @PropertyName("profile_picture") var profilePicture: String
-        = "",
+        var description: String = "",
+        @JvmField @PropertyName("profile_picture") var profilePicture: String = "",
         var following: List<DocumentReference> = emptyList(),
         var posts: List<DocumentReference> = emptyList(),
         var followers: List<DocumentReference> = emptyList()

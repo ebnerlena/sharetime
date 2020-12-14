@@ -7,11 +7,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="wrap_content">
 
-
         <ImageView
             android:id="@+id/post_img"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="w,1:1"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
