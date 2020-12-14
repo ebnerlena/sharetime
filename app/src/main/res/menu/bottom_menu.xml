@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/home"
+        android:title="Home"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/notifications"
+        android:icon="@drawable/notifications"
+        android:title="Notifications"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/person"
+        android:title="Profile"
+        app:showAsAction="always">
+
+        </item>
+</menu>
