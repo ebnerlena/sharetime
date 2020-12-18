@@ -9,4 +9,5 @@
     <string name="unfollow_button_label">Unfollow</string>
     <string name="email">xy.1234@gmx.at</string>
     <string name="password">DoNotUse1234!#-</string>
+    <string name="choose_image_label">Click to choose an Image from your Gallery</string>
 </resources>

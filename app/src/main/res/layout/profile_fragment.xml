@@ -78,8 +78,6 @@
         app:layout_constraintStart_toEndOf="@id/posts"
         app:layout_constraintBottom_toBottomOf="@id/profile_picture"
         app:layout_constraintTop_toBottomOf="@id/followers_nr" />
-
-    >
     <TextView
         android:id="@+id/following_nr"
         android:layout_marginTop="20dp"
@@ -130,7 +128,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         tools:text="@tools:sample/lorem"
         android:textAppearance="@style/custom_headline"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -139,15 +137,40 @@
     <TextView
         android:id="@+id/description"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:textSize="15sp"
         android:textColor="@color/text_grey"
-        app:layout_constraintBottom_toTopOf="@id/post_list"
+        app:layout_constraintBottom_toTopOf="@id/location_icon"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/name"
+        tools:text="@tools:sample/lorem" />
+
+    <ImageView
+        android:id="@+id/location_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:scaleType="centerInside"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintBottom_toTopOf="@id/post_list"
+        app:layout_constraintEnd_toStartOf="@id/location"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        android:src="@drawable/location" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/text_grey"
+        app:layout_constraintBottom_toBottomOf="@id/location_icon"
+        app:layout_constraintStart_toEndOf="@id/location_icon"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toTopOf="@id/location_icon"
         tools:text="@tools:sample/lorem" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -155,12 +178,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintTop_toBottomOf="@id/location_icon"
         tools:listitem="@layout/profile_post"
         />
 

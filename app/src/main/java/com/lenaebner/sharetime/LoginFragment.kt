@@ -26,7 +26,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
     )
 
     private var userId: String = ""
-    private val db = Firebase.firestore.collection("users")
+    private val db = Firebase.firestore.collection("people")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

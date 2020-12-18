@@ -23,6 +23,9 @@ import com.google.firebase.ktx.Firebase
 import com.lenaebner.sharetime.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val db = Firebase.firestore.collection("people")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,28 +42,29 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // this is not working - dont know why - it says that no navcontroller is set
-        //val navController = findNavController(this, R.id.fragment_container)
-
         binding.toolbar.setupWithNavController(navController, appBarConfig)
-
         binding.bottomNav.setupWithNavController(navController)
+        binding.bottomNav.itemIconTintList = null
         binding.bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         //loading profile image in navbar if present, else fallback image
         Firebase.auth.addAuthStateListener { auth ->
-            val imageLoader = imageLoader
-            val request = ImageRequest.Builder(this)
-                    .data(auth.currentUser?.photoUrl)
-                    .fallback(R.drawable.person)
-                    .transformations(CircleCropTransformation())
-                    .target { drawable ->
-                        val profile = binding.bottomNav.menu.findItem(R.id.profileFragment)
-                        profile.icon = drawable
-                    }
-                    .build()
 
-            imageLoader.enqueue(request)
+          db.document(auth.currentUser?.uid.toString()).get().addOnSuccessListener {
+              val imageLoader = imageLoader
+              val currentUser = it?.toObject<Person>()
+                val request = ImageRequest.Builder(this)
+                        .data(currentUser?.profilePicture)
+                        .fallback(R.drawable.person)
+                        .transformations(CircleCropTransformation())
+                        .target { drawable ->
+                            val profile = binding.bottomNav.menu.findItem(R.id.profileFragment)
+                            profile.icon = drawable
+                        }
+                        .build()
+
+                imageLoader.enqueue(request)
+            }
         }
     }
 
@@ -84,6 +88,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val REQUEST_CODE = 9999
+        const val PICK_IMAGE_REQUEST = 8888
     }
 
 }

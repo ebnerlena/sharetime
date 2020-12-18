@@ -26,56 +26,87 @@
         android:layout_width="0dp"
         android:id="@+id/post_comment"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="3dp"
-        android:outlineSpotShadowColor="@color/black"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="0dp"
+
         app:cardBackgroundColor="@color/white"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/comments_list"
-        app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        app:layout_constraintEnd_toEndOf="parent"
+     >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/post_img"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/profile_img"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,4:3"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/amy" />
+
+            <ImageView
                 android:id="@+id/profile_img"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="@id/user_name"
-                app:layout_constraintEnd_toEndOf="@id/user_name"
-                app:layout_constraintBottom_toTopOf="@id/user_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/description"
+                app:layout_constraintBottom_toTopOf="@id/post_img"
                 app:layout_constraintDimensionRatio="w,1:1"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="8dp"
                 tools:src="@drawable/amy" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/user_name"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:layout_marginBottom="8dp"
                 android:textAlignment="center"
-                app:layout_constraintEnd_toStartOf="@id/description"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profile_img"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="@string/user_name" />
+                android:layout_marginLeft="8dp"
+                app:layout_constraintEnd_toStartOf="@id/timestamp"
+                app:layout_constraintStart_toEndOf="@id/profile_img"
+                app:layout_constraintTop_toBottomOf="@id/post_img"
+                app:layout_constraintBottom_toTopOf="@id/description"
+                tools:text="@string/user_name" /> -->
+
+            <TextView
+                android:id="@+id/timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:textSize="10dp"
+                android:textColor="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textAlignment="viewEnd"
+                app:layout_constraintStart_toEndOf="@id/description"
+                app:layout_constraintTop_toTopOf="@id/profile_img"
+                app:layout_constraintBottom_toBottomOf="@id/profile_img"
+                tools:text="12.22.1202" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/user_name"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="0dp"
+                android:textColor="@color/text_grey"
+                android:textAlignment="viewStart"
+                android:layout_marginLeft="8dp"
+                android:textStyle="bold"
+                android:elegantTextHeight="true"
+                app:layout_constraintEnd_toStartOf="@id/timestamp"
+                app:layout_constraintStart_toEndOf="@id/profile_img"
+                app:layout_constraintTop_toTopOf="@id/profile_img"
+                app:layout_constraintBottom_toTopOf="@id/post_img"
                 android:layout_marginBottom="8dp"
                 tools:text="@string/user_name" />
 
@@ -107,11 +138,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintEnd_toStartOf="@id/submit"
         app:layout_constraintTop_toBottomOf="@id/comments_list"
         app:layout_constraintBottom_toBottomOf="parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        tools:layout_editor_absoluteX="16dp"
+        android:backgroundTint="@color/primaryColor"
         android:labelFor="@id/comment_input"
         android:hint="What do you think about this post?">
 
@@ -124,10 +155,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="50dp"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
         android:id="@+id/submit"
         android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
         app:icon="@drawable/send"
+        app:layout_constraintStart_toEndOf="@id/new_comment_input"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintBottom_toBottomOf="@id/new_comment_input" />
 

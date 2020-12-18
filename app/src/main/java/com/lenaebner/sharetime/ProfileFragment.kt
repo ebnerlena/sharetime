@@ -6,9 +6,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.INVISIBLE
 
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -29,7 +29,7 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
 
     private val args: ProfileFragmentArgs by navArgs()
     private val adapter = ProfilePostsAdapter()
-    private val users = Firebase.firestore.collection("users")
+    private val users = Firebase.firestore.collection("people")
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,7 +45,14 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
 
             if (user != null) {
                 setBinding(user, binding)
+
+                if(user.location.isNotEmpty()) {
+                    binding.location.text = user.location
+                } else {
+                    binding.locationIcon.visibility = INVISIBLE
+                }
             }
+
 
             if(args.userId == Firebase.auth.currentUser?.uid.toString()) {
                 setOwnProfile(binding)
@@ -69,6 +76,7 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
 
             profilePicture.load(user?.profilePicture) {
                 transformations(CircleCropTransformation())
+                fallback(com.lenaebner.sharetime.R.drawable.person)
             }
         }
     }
@@ -87,7 +95,9 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
 
     private fun manageUserPosts(binding: ProfileFragmentBinding) {
 
-        val posts = Firebase.firestore.collection("posts").whereEqualTo("author.uid", args.userId)
+        val posts = Firebase.firestore.collection("posts")
+                .whereEqualTo("author.uid", args.userId)
+                //.orderBy("timestamp")
                 .addSnapshotListener { value, error ->
 
                     val userposts = value?.toObjects<Post>().orEmpty()
@@ -117,7 +127,6 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
             val followers = user?.followers.orEmpty()
 
             if(authUserIsInList(followers)) {
-
                 followSetup(binding, value)
             }
             else {
