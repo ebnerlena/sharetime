@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
 import coil.load
+import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -22,9 +23,15 @@ class CommentAdapter  : ListAdapter<Comment, CommentAdapter.CommentViewHolder>(D
             RecyclerView.ViewHolder(binding.root) {
                 fun bindComment(comment: Comment) {
                     binding.comment.text = comment.text
-                    binding.profileImg.load(comment.author.profilePicture) {
-                        fallback(R.drawable.person)
-                        transformations(CircleCropTransformation())
+
+                    if(comment.author.profilePicture.isNullOrEmpty()) {
+                        binding.profileImg.load(R.drawable.person_grey)
+
+                    } else {
+                        binding.profileImg.load(comment.author?.profilePicture) {
+                            fallback(R.drawable.person_grey)
+                            transformations(CircleCropTransformation())
+                        }
                     }
 
                     val sfd = SimpleDateFormat("dd. MMM yyyy")

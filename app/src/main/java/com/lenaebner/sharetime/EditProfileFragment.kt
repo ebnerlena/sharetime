@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -33,13 +34,14 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
         binding = EditProfileFragmentBinding.bind(view)
         val currentUser = Firebase.auth.currentUser
 
-        db.collection("people").document(currentUser?.uid.toString()).get().addOnSuccessListener { value ->
-            val user = value.toObject<Person>()
+        db.collection("people").document(currentUser?.uid.toString()).addSnapshotListener{ value, _ ->
+            val user = value?.toObject<Person>()
             binding.run {
 
-                profilePicture.load(user?.profilePicture) {
-                    transformations(CircleCropTransformation())
-                    fallback(R.drawable.person)
+                if(!user?.profilePicture.isNullOrEmpty()) {
+                    profilePicture.load(user?.profilePicture)
+                } else {
+                    uploadPicture.visibility = VISIBLE
                 }
 
                 profilePicture.setOnClickListener {

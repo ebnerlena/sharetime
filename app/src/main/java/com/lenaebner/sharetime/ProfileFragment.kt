@@ -1,20 +1,17 @@
 package com.lenaebner.sharetime
 
-import android.R
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.View.INVISIBLE
-
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.firebase.ui.auth.AuthUI
-
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -23,25 +20,34 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import com.lenaebner.sharetime.databinding.EditProfileFragmentBinding
 import com.lenaebner.sharetime.databinding.ProfileFragmentBinding
 
-class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragment) {
+class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
+    private lateinit var binding: ProfileFragmentBinding
     private val args: ProfileFragmentArgs by navArgs()
     private val adapter = ProfilePostsAdapter()
     private val users = Firebase.firestore.collection("people")
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = ProfileFragmentBinding.bind(view)
+        binding = ProfileFragmentBinding.bind(view)
+
+        val currentUser = Firebase.auth.currentUser
+
+        if(currentUser == null) {
+            findNavController().navigate(ProfileFragmentDirections.profileToLogin())
+        }
+
         binding.postList.adapter = adapter
+        binding.name.text = args.username
 
         setHasOptionsMenu(true)
 
-        users.document(args.userId).get().addOnSuccessListener { value ->
-            val user = value.toObject<Person>()
+        users.document(args.userId).addSnapshotListener { value,_ ->
+            val user = value?.toObject<Person>()
 
             if (user != null) {
                 setBinding(user, binding)
@@ -49,10 +55,9 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
                 if(user.location.isNotEmpty()) {
                     binding.location.text = user.location
                 } else {
-                    binding.locationIcon.visibility = INVISIBLE
+                    binding.locationIcon.visibility = View.INVISIBLE
                 }
             }
-
 
             if(args.userId == Firebase.auth.currentUser?.uid.toString()) {
                 setOwnProfile(binding)
@@ -74,9 +79,12 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
             followersNr.text = user?.followers?.size.toString()
             followingNr.text = user?.following?.size.toString()
 
-            profilePicture.load(user?.profilePicture) {
-                transformations(CircleCropTransformation())
-                fallback(com.lenaebner.sharetime.R.drawable.person)
+            if(user.profilePicture.isNullOrEmpty()) {
+                profilePicture.load(R.drawable.person_grey)
+            } else {
+                profilePicture.load(user?.profilePicture) {
+                    transformations(CircleCropTransformation())
+                }
             }
         }
     }
@@ -101,9 +109,17 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
                 .addSnapshotListener { value, error ->
 
                     val userposts = value?.toObjects<Post>().orEmpty()
-                    adapter.submitList(userposts)
+                    adapter.submitList(userposts.sortedByDescending {post -> post.timestamp })
                     binding.postNr.text = userposts.size.toString()
+
+                    if(userposts.isNullOrEmpty()){
+                        binding.noPosts.visibility = View.VISIBLE
+                    }
                 }
+
+        binding.addPhoto.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.profileToNewPost())
+        }
     }
 
     private fun setOwnProfile(binding: ProfileFragmentBinding){
@@ -189,5 +205,4 @@ class ProfileFragment : Fragment(com.lenaebner.sharetime.R.layout.profile_fragme
 
         return super.onOptionsItemSelected(item)
     }
-
 }

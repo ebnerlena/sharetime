@@ -106,8 +106,14 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
                         }
                     }
                 }
+
+                //doesn't solve problem of clicking on back arrow on device - crash
                 uploadTask.addOnFailureListener {
                     Toast.makeText(context ,"Problems uploading post image... try again", Toast.LENGTH_SHORT ).show()
+                }
+                uploadTask.addOnCanceledListener {
+                    it.reference.delete()
+                    newPostRef.delete()
                 }
             }
 

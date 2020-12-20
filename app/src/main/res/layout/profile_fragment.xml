@@ -173,6 +173,20 @@
         app:layout_constraintTop_toTopOf="@id/location_icon"
         tools:text="@tools:sample/lorem" />
 
+    <TextView
+        android:id="@+id/no_posts"
+        android:layout_width="0dp"
+        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/text_grey"
+        app:layout_constraintBottom_toBottomOf="@id/post_list"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toTopOf="@id/post_list"
+        android:text="No posts - go and add a post" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_list"
         android:layout_width="0dp"
@@ -187,5 +201,19 @@
         app:layout_constraintTop_toBottomOf="@id/location_icon"
         tools:listitem="@layout/profile_post"
         />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_photo"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:contentDescription="Add a new post"
+        app:tint="@color/white"
+        android:backgroundTint="@color/primaryColor"
+        android:src="@drawable/add_photo"
+        app:backgroundTint="@color/text_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,9 +51,13 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
 
                 likeNr.text = post.likes.size.toString()
                 userName.text = post.author.fullName
-                profileImg.load(post.author.profilePicture) {
-                    transformations(CircleCropTransformation())
-                    fallback(R.drawable.person)
+
+                if(post.author.profilePicture.isNullOrEmpty()){
+                    profileImg.load(R.drawable.person_grey)
+                }  else {
+                    profileImg.load(post.author.profilePicture) {
+                        transformations(CircleCropTransformation())
+                    }
                 }
 
                 val userReference = db.collection("people").document(Firebase.auth.currentUser?.uid.toString())

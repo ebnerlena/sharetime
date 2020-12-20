@@ -4,7 +4,9 @@ import android.media.Image
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,9 @@ class ProfilePostsAdapter : ListAdapter<Post, ProfilePostsAdapter.PostViewHolder
 
             fun bindPost(post: Post) {
                 binding.postImg.load(post.imageUrl)
+                binding.postImg.setOnClickListener {
+                    it.findNavController().navigate(ProfileFragmentDirections.profileToComment(post.documentId))
+                }
             }
         }
 

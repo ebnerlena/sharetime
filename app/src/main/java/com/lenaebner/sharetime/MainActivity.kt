@@ -1,6 +1,10 @@
 package com.lenaebner.sharetime
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.onActive
 import androidx.compose.ui.platform.setContent
@@ -29,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         val binding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -50,9 +55,9 @@ class MainActivity : AppCompatActivity() {
         //loading profile image in navbar if present, else fallback image
         Firebase.auth.addAuthStateListener { auth ->
 
-          db.document(auth.currentUser?.uid.toString()).get().addOnSuccessListener {
+          db.document(Firebase.auth.currentUser?.uid.toString()).addSnapshotListener { value, _ ->
               val imageLoader = imageLoader
-              val currentUser = it?.toObject<Person>()
+              val currentUser = value?.toObject<Person>()
                 val request = ImageRequest.Builder(this)
                         .data(currentUser?.profilePicture)
                         .fallback(R.drawable.person)
@@ -73,13 +78,22 @@ class MainActivity : AppCompatActivity() {
             val navController = findNavController(this, R.id.fragment_container)
             when (item.itemId) {
                 R.id.profileFragment -> {
-                    val user = Firebase.auth.currentUser
-                    val bundle = bundleOf("username" to user?.displayName, "userId" to user?.uid)
-                    navController.navigate(
-                        R.id.profileFragment,
-                        bundle
-                    )
-                    true
+                    val authUser = Firebase.auth.currentUser
+                    val userRef = db.document(authUser?.uid.toString()).get()
+                    userRef.addOnSuccessListener {
+                        val user = it.toObject<Person>()
+                        val bundle = bundleOf("username" to user?.fullName, "userId" to authUser?.uid.toString())
+                        navController.navigate(
+                                R.id.profileFragment,
+                                bundle
+                        )
+                        true
+                    }
+                    userRef.addOnFailureListener {
+                        Toast.makeText(this, "Problems with your user account...", Toast.LENGTH_SHORT).show()
+                        false
+                    }
+
                 }
                 else -> item.onNavDestinationSelected(navController)
             }

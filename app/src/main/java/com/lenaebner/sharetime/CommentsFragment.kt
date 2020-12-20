@@ -48,27 +48,23 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
 
                 binding.run {
                     description.text = post?.text
-                    //userName.text = post?.author?.fullName
-                    profileImg.load(post?.author?.profilePicture) {
-                        fallback(R.drawable.person)
-                        transformations(CircleCropTransformation())
+
+                    if(post?.author?.profilePicture.isNullOrEmpty()) {
+                        profileImg.load(R.drawable.person_grey)
+                    } else {
+                        profileImg.load(post?.author?.profilePicture) {
+                            placeholder(R.drawable.person_grey)
+                            transformations(CircleCropTransformation())
+                        }
                     }
                     postImg.load(post?.imageUrl)
-
-                    timestamp.text = post?.timestamp?.toDate().toString()
-
 
                     val date = post?.timestamp
                     val sfd = SimpleDateFormat("dd. MMM yyyy")
                     timestamp.text = sfd.format(date?.toDate()).toString()
 
-                    val name = user?.fullName.orEmpty()
-                    /*userName.setOnClickListener {
-                        findNavController().navigate(CommentsFragmentDirections.commentsToProfile(name, user?.uid.toString()))
-                    } */
-                    profileImg.load(user?.profilePicture) {
-                        transformations(CircleCropTransformation())
-                    }
+                    val name = post?.author?.fullName.orEmpty()
+
                     profileImg.setOnClickListener {
                         findNavController().navigate(CommentsFragmentDirections.commentsToProfile(name, post?.author?.uid.toString()))
                     }
@@ -80,8 +76,7 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
                                 addComment(user, commentText)
                             }
                             binding.commentInput.text?.clear()
-                            binding.commentInput.clearFocus()
-                        }
+                         }
                     }
                 }
             }
@@ -91,7 +86,6 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
                 adapter.submitList(comments)
                 binding.commentsList.smoothScrollToPosition(comments.size)
             }
-
         }
     }
 
@@ -99,6 +93,5 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
         author.uid = Firebase.auth?.currentUser?.uid.toString()
         val newComment = Comment(author, commentText)
         db.collection("posts").document(args.postId).collection("comments").add(newComment)
-
     }
 }
