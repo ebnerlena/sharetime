@@ -2,6 +2,7 @@ package com.lenaebner.sharetime
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +27,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
     )
 
     private var userId: String = ""
-    private val db = Firebase.firestore.collection("users")
+    private val db = Firebase.firestore.collection("people")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -86,7 +87,14 @@ class LoginFragment : Fragment(R.layout.login_fragment){
                     userId = Firebase.auth.currentUser?.uid.orEmpty()
 
                     if(response.isNewUser){
-                        val person = Person(response.user.name.toString(),"That's me: ", response.user.photoUri.toString())
+                        val photoUrl = response.user.photoUri?.toString() ?:""
+                        val person = Person(
+                                username = response.user.name.toString(),
+                                fullName = response.user.name.toString(),
+                                description = "That's me: ",
+                                location = "",
+                                profilePicture = photoUrl
+                        )
                         db.document(userId).set(person)
 
                         findNavController().navigate(LoginFragmentDirections.loginToEditProfile())

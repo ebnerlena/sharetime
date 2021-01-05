@@ -14,5 +14,6 @@
         <!-- Customize your theme here. -->
         <item name="colorControlNormal">@color/white</item>
         <item name="colorButtonNormal">@color/primaryColor</item>
+        <item name="progressBarStyle">@color/primaryColor</item>
     </style>
 </resources>
