@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -70,7 +71,7 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
                         }
 
                         updateUser.addOnFailureListener {
-                            Toast.makeText(context, "Problems updating your profile... check input and try again", Toast.LENGTH_SHORT).show()
+                            Snackbar.make(binding.root,"Problems updating your profile... check input and try again",  Snackbar.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -110,7 +111,7 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
                     }
                 }
                 uploadTask.addOnFailureListener {
-                    Toast.makeText(context ,"Problems updating your profile image... try again", Toast.LENGTH_SHORT ).show()
+                 Snackbar.make(binding.root ,"Problems updating your profile image... try again", Snackbar.LENGTH_SHORT).show()
                 }
 
             }

@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -55,7 +56,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
                 if(user.location.isNotEmpty()) {
                     binding.location.text = user.location
                 } else {
-                    binding.locationIcon.visibility = View.INVISIBLE
+                    binding.locationIcon.isVisible = false
                 }
             }
 
@@ -79,9 +80,9 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
             followersNr.text = user?.followers?.size.toString()
             followingNr.text = user?.following?.size.toString()
 
-            if(user.profilePicture.isNullOrEmpty()) {
+            if(user?.profilePicture.isNullOrEmpty()){
                 profilePicture.load(R.drawable.person_grey)
-            } else {
+            }  else {
                 profilePicture.load(user?.profilePicture) {
                     transformations(CircleCropTransformation())
                 }
@@ -105,7 +106,6 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         val posts = Firebase.firestore.collection("posts")
                 .whereEqualTo("author.uid", args.userId)
-                //.orderBy("timestamp")
                 .addSnapshotListener { value, error ->
 
                     val userposts = value?.toObjects<Post>().orEmpty()
@@ -137,8 +137,8 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
     private fun setOtherProfile(user: Person, binding: ProfileFragmentBinding, value: DocumentSnapshot) {
         binding.run {
-            editButton.visibility = View.INVISIBLE
-            followButton.visibility = View.VISIBLE
+            editButton.isVisible = false
+            followButton.isVisible = true
 
             val followers = user?.followers.orEmpty()
 
@@ -191,7 +191,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(com.lenaebner.sharetime.R.menu.profile, menu)
+        inflater.inflate(R.menu.profile, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

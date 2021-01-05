@@ -36,24 +36,10 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
            val userRef = db.collection("people").document(Firebase.auth.currentUser?.uid.toString())
            userRef.get().addOnSuccessListener {
                var user = it?.toObject<Person>()
-               var sortedFollowingPosts = mutableListOf<Post>()
-               val postsList = posts.toMutableList()
 
-               //sort the list by timestamp and follwings
-               posts.forEachIndexed { index, post ->
-                   user?.following?.forEach {
-                       if(it.id == "${post.author.uid}") {
-                           sortedFollowingPosts.add(post)
-                           postsList.remove(post)
-                        }
-                   }
-               }
-               adapter.submitList(sortedFollowingPosts+postsList)
+               posts.sortedBy{ user?.following?.contains(it.author.uid) == true }
+               adapter.submitList(posts)
            }
-
-
         }
     }
-
-
 }

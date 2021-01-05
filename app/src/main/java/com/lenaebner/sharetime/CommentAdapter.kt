@@ -15,6 +15,7 @@ import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.lenaebner.sharetime.databinding.SingleCommentBinding
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 class CommentAdapter  : ListAdapter<Comment, CommentAdapter.CommentViewHolder>(DIFF_UTIL){
@@ -34,8 +35,8 @@ class CommentAdapter  : ListAdapter<Comment, CommentAdapter.CommentViewHolder>(D
                         }
                     }
 
-                    val sfd = SimpleDateFormat("dd. MMM yyyy")
-                    binding.timestamp.text = sfd.format(comment.timestamp?.toDate()).toString()
+                    val dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM)
+                    binding.timestamp.text = dateFormat.format(comment?.timestamp?.toDate())
                     binding.userName.text = comment.author.fullName
 
                     binding.profileImg.setOnClickListener {

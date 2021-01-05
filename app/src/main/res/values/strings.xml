@@ -7,6 +7,7 @@
     <string name="edit_button_label">Edit</string>
     <string name="follow_button_label">Follow</string>
     <string name="unfollow_button_label">Unfollow</string>
+    <string name="logout">Logout</string>
     <string name="email">xy.1234@gmx.at</string>
     <string name="password">DoNotUse1234!#-</string>
     <string name="choose_image_label">Click to choose an Image from your Gallery</string>

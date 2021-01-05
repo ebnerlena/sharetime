@@ -17,6 +17,7 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.google.type.Date
 import com.lenaebner.sharetime.databinding.CommentsFragmentBinding
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -49,19 +50,18 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
                 binding.run {
                     description.text = post?.text
 
-                    if(post?.author?.profilePicture.isNullOrEmpty()) {
+                    if(post?.author?.profilePicture.isNullOrEmpty()){
                         profileImg.load(R.drawable.person_grey)
-                    } else {
+                    }  else {
                         profileImg.load(post?.author?.profilePicture) {
-                            placeholder(R.drawable.person_grey)
                             transformations(CircleCropTransformation())
                         }
                     }
                     postImg.load(post?.imageUrl)
 
-                    val date = post?.timestamp
-                    val sfd = SimpleDateFormat("dd. MMM yyyy")
-                    timestamp.text = sfd.format(date?.toDate()).toString()
+
+                    val dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM)
+                    timestamp.text = dateFormat.format(post?.timestamp?.toDate())
 
                     val name = post?.author?.fullName.orEmpty()
 
@@ -90,6 +90,7 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
     }
 
     private fun addComment(author: Author, commentText: String) {
+        author.uid = Firebase.auth?.currentUser?.uid ?: return
         author.uid = Firebase.auth?.currentUser?.uid.toString()
         val newComment = Comment(author, commentText)
         db.collection("posts").document(args.postId).collection("comments").add(newComment)

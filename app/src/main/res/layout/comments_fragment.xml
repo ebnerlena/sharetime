@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
@@ -20,21 +25,16 @@
         app:layout_constraintGuide_end="16dp" />
 
     <androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="0dp"
         android:id="@+id/post_comment"
         android:layout_height="wrap_content"
         app:cardCornerRadius="2dp"
         app:cardElevation="0dp"
-
         app:cardBackgroundColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/comments_list"
-        app:layout_constraintEnd_toEndOf="parent"
-     >
+        app:layout_constraintEnd_toEndOf="parent" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
             <TextView
                 android:id="@+id/description"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:textColor="@color/text_grey"
                 android:textAlignment="viewStart"
                 android:layout_marginLeft="8dp"
@@ -98,26 +98,21 @@
                 tools:text="@string/user_name" />
 
        </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.cardview.widget.CardView>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments_list"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/new_comment_input"
         app:layout_constraintTop_toBottomOf="@id/post_comment"
         tools:listitem="@layout/single_comment"
-        >
-
-    </androidx.recyclerview.widget.RecyclerView>
+        android:nestedScrollingEnabled="false" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
@@ -152,3 +147,4 @@
         app:layout_constraintBottom_toBottomOf="@id/new_comment_input" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -87,16 +87,13 @@ class LoginFragment : Fragment(R.layout.login_fragment){
                     userId = Firebase.auth.currentUser?.uid.orEmpty()
 
                     if(response.isNewUser){
-                        var photoUrl = ""
-                        if (response.user.photoUri != null) {
-                            photoUrl = response.user.photoUri.toString()
-                        }
+                        val photoUrl = response.user.photoUri?.toString() ?:""
                         val person = Person(
                                 username = response.user.name.toString(),
                                 fullName = response.user.name.toString(),
                                 description = "That's me: ",
                                 location = "",
-                                profilePicture =  photoUrl
+                                profilePicture = photoUrl
                         )
                         db.document(userId).set(person)
 

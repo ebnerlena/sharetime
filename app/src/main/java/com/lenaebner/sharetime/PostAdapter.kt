@@ -60,6 +60,7 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
                     }
                 }
 
+
                 val userReference = db.collection("people").document(Firebase.auth.currentUser?.uid.toString())
 
                 hasLiked = post.likes.contains(userReference)

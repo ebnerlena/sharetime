@@ -16,11 +16,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.lenaebner.sharetime.databinding.NewPostFragmentBinding
 
@@ -29,6 +31,7 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
     private lateinit var binding: NewPostFragmentBinding
     private val storage = Firebase.storage
     private var chosenImgUri: Uri? = null
+    private var uploadTask : UploadTask? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,6 +54,13 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
                     uploadImg()
                 }
             }
+        }
+    }
+
+    private fun showLoading(loading: Boolean = true) {
+        binding.run {
+            progressBar.isVisible = loading
+            notLoading.isVisible = !loading
         }
     }
 
@@ -80,10 +90,10 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
             if (person != null && author != null) {
                 val newPostRef = db.collection("posts").document()
                 val imageRef = storage.reference.child("post-images/${newPostRef.id}")
-                val uploadTask = imageRef.putStream(img)
-                showProgressBar()
+                uploadTask = imageRef.putStream(img)
+                showLoading()
 
-                uploadTask.addOnSuccessListener {
+                uploadTask?.addOnSuccessListener {
                     imageRef.downloadUrl.addOnSuccessListener { url ->
                         val newPost = Post(
                             imageUrl = url.toString(),
@@ -91,7 +101,7 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
                             author = author
                         )
 
-                        Toast.makeText(context ,"Successfully uploaded post", Toast.LENGTH_SHORT ).show()
+                        Snackbar.make(binding.root ,"Successfully uploaded post", Snackbar.LENGTH_SHORT ).show()
 
                         newPostRef.set(newPost).addOnSuccessListener {
                             person.posts = person.posts + newPostRef
@@ -108,27 +118,15 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
                 }
 
                 //doesn't solve problem of clicking on back arrow on device - crash
-                uploadTask.addOnFailureListener {
-                    Toast.makeText(context ,"Problems uploading post image... try again", Toast.LENGTH_SHORT ).show()
+                uploadTask?.addOnFailureListener {
+                   Snackbar.make(binding.root,"Problems uploading post image... try again", Snackbar.LENGTH_SHORT ).show()
                 }
-                uploadTask.addOnCanceledListener {
+                uploadTask?.addOnCanceledListener {
                     it.reference.delete()
                     newPostRef.delete()
                 }
             }
 
-        }
-    }
-
-    private fun showProgressBar() {
-        binding.run {
-            progressBar.isVisible = true
-            post.visibility = INVISIBLE
-            postPicture.visibility = INVISIBLE
-            chooseImageLabel.visibility = INVISIBLE
-            galleryIcon.visibility = INVISIBLE
-            description.visibility = INVISIBLE
-            inputDescription.visibility = INVISIBLE
         }
     }
 
@@ -139,10 +137,15 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
 
             if (chosenImgUri != null) {
                 binding.postPicture.load(chosenImgUri)
-                binding.chooseImageLabel.visibility = INVISIBLE
-                binding.galleryIcon.visibility = INVISIBLE
+                binding.chooseImageLabel.isVisible = false
+                binding.galleryIcon.isVisible = false
             }
         }
+    }
+
+    override fun onDestroy() {
+        uploadTask?.cancel()
+        super.onDestroy()
     }
 
 }

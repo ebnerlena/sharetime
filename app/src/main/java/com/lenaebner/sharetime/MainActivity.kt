@@ -20,28 +20,30 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.lenaebner.sharetime.databinding.ActivityMainBinding
+import com.lenaebner.sharetime.databinding.NewPostFragmentBinding
 
 class MainActivity : AppCompatActivity() {
 
     private val db = Firebase.firestore.collection("people")
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
-        val binding =  ActivityMainBinding.inflate(layoutInflater)
+        binding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val appBarConfig = AppBarConfiguration(topLevelDestinationIds = setOf(
                 R.id.homeFragment,
                 R.id.loginFragment
         ))
-
 
         setSupportActionBar(binding.toolbar)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setupWithNavController(navController, appBarConfig)
         binding.bottomNav.setupWithNavController(navController)
         binding.bottomNav.itemIconTintList = null
-        binding.bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        binding.bottomNav.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         //loading profile image in navbar if present, else fallback image
         Firebase.auth.addAuthStateListener { auth ->
@@ -73,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val mOnNavigationItemSelectedListener =
+    private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             val navController = findNavController(this, R.id.fragment_container)
             when (item.itemId) {
@@ -90,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                     userRef.addOnFailureListener {
-                        Toast.makeText(this, "Problems with your user account...", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "Problems with your user account...", Snackbar.LENGTH_SHORT).show()
                         false
                     }
 
