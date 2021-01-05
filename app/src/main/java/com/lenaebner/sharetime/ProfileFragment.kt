@@ -76,7 +76,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         binding.run {
             name.text = args.username
-            description.text = user?.description.orEmpty()
+            description.text = user?.description?.toString()
             followersNr.text = user?.followers?.size.toString()
             followingNr.text = user?.following?.size.toString()
 
