@@ -108,11 +108,11 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
                 .whereEqualTo("author.uid", args.userId)
                 .addSnapshotListener { value, error ->
 
-                    val userposts = value?.toObjects<Post>().orEmpty()
-                    adapter.submitList(userposts.sortedByDescending {post -> post.timestamp })
-                    binding.postNr.text = userposts.size.toString()
+                    val userPosts = value?.toObjects<Post>().orEmpty()
+                    adapter.submitList(userPosts.sortedByDescending {post -> post.timestamp })
+                    binding.postNr.text = userPosts.size.toString()
 
-                    if(userposts.isNullOrEmpty()){
+                    if(userPosts.isNullOrEmpty()){
                         binding.noPosts.visibility = View.VISIBLE
                     }
                 }
@@ -195,7 +195,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == com.lenaebner.sharetime.R.id.logout) {
+        if (item.itemId == R.id.logout) {
             //Logout using firebase UI
             AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener {
                 findNavController().navigate(ProfileFragmentDirections.profileToLogin())
