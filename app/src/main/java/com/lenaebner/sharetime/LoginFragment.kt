@@ -17,6 +17,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.lenaebner.sharetime.databinding.LoginFragmentBinding
+import com.lenaebner.sharetime.firestore.currentUser
+import com.lenaebner.sharetime.firestore.users
 
 class LoginFragment : Fragment(R.layout.login_fragment){
 
@@ -27,7 +29,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
     )
 
     private var userId: String = ""
-    private val db = Firebase.firestore.collection("people")
+    private val db = Firebase.firestore
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +39,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
             performSilentLogin()
         }
         else {
-            userId = Firebase.auth.currentUser?.uid.orEmpty()
+            userId = db.currentUser().id
             findNavController().navigate(LoginFragmentDirections.loginToHome(userId))
         }
     }
@@ -45,7 +47,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
     private fun performSilentLogin() {
         AuthUI.getInstance().silentSignIn(requireContext(), providers).addOnCompleteListener {
             if (it.isSuccessful) {
-                userId = Firebase.auth.currentUser?.uid.orEmpty()
+                userId = db.currentUser().id
                 findNavController().navigate(LoginFragmentDirections.loginToHome(userId))
 
             } else {
@@ -95,7 +97,7 @@ class LoginFragment : Fragment(R.layout.login_fragment){
                                 location = "",
                                 profilePicture = photoUrl
                         )
-                        db.document(userId).set(person)
+                        db.users().document(userId).set(person)
 
                         findNavController().navigate(LoginFragmentDirections.loginToEditProfile())
                     }

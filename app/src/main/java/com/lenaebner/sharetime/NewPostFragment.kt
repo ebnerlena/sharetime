@@ -25,6 +25,9 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.lenaebner.sharetime.databinding.NewPostFragmentBinding
+import com.lenaebner.sharetime.firestore.allPosts
+import com.lenaebner.sharetime.firestore.currentUser
+import com.lenaebner.sharetime.firestore.users
 
 class NewPostFragment : Fragment(R.layout.new_post_fragment) {
     private val db = Firebase.firestore
@@ -37,7 +40,7 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding = NewPostFragmentBinding.bind(view)
 
-        val currentUser = Firebase.auth.currentUser
+        val currentUser = db.currentUser()
 
         if(currentUser == null) {
             findNavController().navigate(NewPostFragmentDirections.newPostToLogin())
@@ -80,15 +83,15 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
                 .openInputStream(imgUri) ?: return
 
         val description = binding.description.text
-        val currentUser = Firebase.auth.currentUser
+        val currentUser = db.currentUser()
 
-        db.collection("people").document(currentUser?.uid.toString()).get().addOnSuccessListener {
+        db.users().document(currentUser.id).get().addOnSuccessListener {
             val person = it?.toObject<Person>()
             val author = it?.toObject<Author>()
-            author?.uid = currentUser?.uid.toString()
+            author?.uid = currentUser.id
 
             if (person != null && author != null) {
-                val newPostRef = db.collection("posts").document()
+                val newPostRef = db.allPosts().document()
                 val imageRef = storage.reference.child("post-images/${newPostRef.id}")
                 uploadTask = imageRef.putStream(img)
                 showLoading()
@@ -106,11 +109,9 @@ class NewPostFragment : Fragment(R.layout.new_post_fragment) {
                         newPostRef.set(newPost).addOnSuccessListener {
                             person.posts = person.posts + newPostRef
 
-                            db.collection("people").document(currentUser?.uid.toString()).set(person).addOnSuccessListener {
+                            db.users().document(currentUser.id).set(person).addOnSuccessListener {
                                 findNavController().navigate(
-                                    NewPostFragmentDirections.newPostSubmit(
-                                        currentUser?.uid.toString()
-                                    )
+                                    NewPostFragmentDirections.newPostSubmit(currentUser.id)
                                 )
                             }
                         }

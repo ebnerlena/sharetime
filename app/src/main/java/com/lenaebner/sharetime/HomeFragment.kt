@@ -15,6 +15,9 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.lenaebner.sharetime.databinding.HomeFragmentBinding
+import com.lenaebner.sharetime.firestore.allPosts
+import com.lenaebner.sharetime.firestore.currentUser
+import com.lenaebner.sharetime.firestore.user
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
 
@@ -30,31 +33,15 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         }
 
         val db = Firebase.firestore
-        val postsRef = db.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING)
+        val postsRef = db.allPosts().orderBy("timestamp", Query.Direction.DESCENDING)
         postsRef.addSnapshotListener{ value, error ->
             var posts = value?.toObjects<Post>().orEmpty()
 
-           val userRef = db.collection("people").document(Firebase.auth.currentUser?.uid.toString()).get()
+           val userRef = db.user(db.currentUser().id).get()
            userRef.addOnSuccessListener {
                val user = it?.toObject<Person>()
-
-               //not working cause following contains user references not strings
-               /*posts.sortedBy{ post -> user?.following?.contains(db.collection("people").document(post.author.uid.toString()).get()) == true }
-               adapter.submitList(posts) */
-
-               var sortedFollowingPosts = mutableListOf<Post>()
-               val postsList = posts.toMutableList()
-                //user?.following?.contains(db.collection("people").document(post.author.uid.toString()).get())
-               //sort the list by timestamp and followings
-               posts.forEachIndexed { index, post ->
-                   user?.following?.forEach {
-                       if (it.id == "${post.author.uid}") {
-                           sortedFollowingPosts.add(post)
-                           postsList.remove(post)
-                       }
-                   }
-               }
-               adapter.submitList(sortedFollowingPosts + postsList)
+               posts.sortedBy{ post -> user?.following?.contains(post.author.uid) == true }
+               adapter.submitList(posts)
 
            }
             userRef.addOnFailureListener {

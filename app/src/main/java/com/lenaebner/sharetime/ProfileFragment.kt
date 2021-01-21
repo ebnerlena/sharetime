@@ -23,13 +23,18 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.lenaebner.sharetime.databinding.EditProfileFragmentBinding
 import com.lenaebner.sharetime.databinding.ProfileFragmentBinding
+import com.lenaebner.sharetime.firestore.allPosts
+import com.lenaebner.sharetime.firestore.currentUser
+import com.lenaebner.sharetime.firestore.user
+import com.lenaebner.sharetime.firestore.users
 
 class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
     private lateinit var binding: ProfileFragmentBinding
     private val args: ProfileFragmentArgs by navArgs()
     private val adapter = ProfilePostsAdapter()
-    private val users = Firebase.firestore.collection("people")
+    private val db = Firebase.firestore
+    private val users = Firebase.firestore.users()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +65,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
                 }
             }
 
-            if(args.userId == Firebase.auth.currentUser?.uid.toString()) {
+            if(args.userId == db.currentUser().id) {
                 setOwnProfile(binding)
             }
             else {
@@ -104,7 +109,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
     private fun manageUserPosts(binding: ProfileFragmentBinding) {
 
-        val posts = Firebase.firestore.collection("posts")
+        val posts = db.allPosts()
                 .whereEqualTo("author.uid", args.userId)
                 .addSnapshotListener { value, error ->
 
@@ -140,7 +145,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
             editButton.isVisible = false
             followButton.isVisible = true
 
-            val followers = user?.followers.orEmpty()
+            val followers = user?.followers
 
             if(authUserIsInList(followers)) {
                 followSetup(binding, value)
@@ -152,7 +157,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
     }
 
     private fun authUserIsInList(list: List<DocumentReference>) : Boolean {
-        return list.contains(users.document(Firebase.auth.currentUser?.uid.toString()))
+        return list.contains(users.document(db.currentUser().id))
     }
 
     private fun followSetup(binding: ProfileFragmentBinding, value: DocumentSnapshot) {
@@ -161,11 +166,11 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
             followButton.text = "unfollow"
             followButton.setOnClickListener{
-                users.document(Firebase.auth.currentUser?.uid.orEmpty())
+                users.document(db.currentUser().id)
                         .update( "following", FieldValue.arrayRemove(value.reference))
 
                 users.document(args.userId).update(
-                        "followers", FieldValue.arrayRemove(users.document(Firebase.auth.currentUser?.uid.orEmpty()))
+                        "followers", FieldValue.arrayRemove(users.document(db.currentUser().id))
                 )
                 followButton.text = "follow"
                 refreshBinding(binding)
@@ -176,11 +181,11 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
         binding.run {
             followButton.text = "follow"
             followButton.setOnClickListener{
-                users.document(Firebase.auth.currentUser?.uid.orEmpty())
+                users.document(db.currentUser().id)
                         .update( "following", FieldValue.arrayUnion(value.reference))
 
                 users.document(args.userId).update(
-                        "followers", FieldValue.arrayUnion(users.document(Firebase.auth.currentUser?.uid.orEmpty()))
+                        "followers", FieldValue.arrayUnion(users.document(db.currentUser().id))
                 )
 
                 followButton.text = "unfollow"
