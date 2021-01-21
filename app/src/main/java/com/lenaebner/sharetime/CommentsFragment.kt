@@ -17,6 +17,10 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.google.type.Date
 import com.lenaebner.sharetime.databinding.CommentsFragmentBinding
+import com.lenaebner.sharetime.firestore.allPosts
+import com.lenaebner.sharetime.firestore.currentUser
+import com.lenaebner.sharetime.firestore.postComments
+import com.lenaebner.sharetime.firestore.users
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -35,16 +39,16 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
         val adapter = CommentAdapter()
         binding.commentsList.adapter = adapter
 
-        val currentUser = Firebase.auth.currentUser
+        val currentUser = db.currentUser()
 
         if(currentUser == null) {
             findNavController().navigate(CommentsFragmentDirections.commentsToLogin())
         }
 
-        db.collection("people").document(currentUser?.uid.toString()).addSnapshotListener { value, _ ->
+        db.users().document(currentUser.id).addSnapshotListener { value, _ ->
             val user = value?.toObject<Author>()
 
-            db.collection("posts").document(args.postId).addSnapshotListener { p, _ ->
+            db.allPosts().document(args.postId).addSnapshotListener { p, _ ->
                 val post = p?.toObject<Post>()
 
                 binding.run {
@@ -81,7 +85,7 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
                 }
             }
 
-            db.collection("posts").document(args.postId).collection("comments").addSnapshotListener { c, _ ->
+            db.postComments(args.postId).addSnapshotListener { c, _ ->
                 val comments = c?.toObjects<Comment>().orEmpty()
                 adapter.submitList(comments)
                 binding.commentsList.smoothScrollToPosition(comments.size)
@@ -93,6 +97,6 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
         author.uid = Firebase.auth?.currentUser?.uid ?: return
         author.uid = Firebase.auth?.currentUser?.uid.toString()
         val newComment = Comment(author, commentText)
-        db.collection("posts").document(args.postId).collection("comments").add(newComment)
+        db.postComments(args.postId).add(newComment)
     }
 }

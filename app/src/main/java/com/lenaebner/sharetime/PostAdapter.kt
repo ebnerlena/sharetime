@@ -14,6 +14,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.lenaebner.sharetime.databinding.SinglePostBinding
+import com.lenaebner.sharetime.firestore.currentUser
+import com.lenaebner.sharetime.firestore.post
+import com.lenaebner.sharetime.firestore.postComments
+import com.lenaebner.sharetime.firestore.users
 
 
 class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
@@ -40,15 +44,13 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
 
             binding.run {
 
-                db.collection("posts").document(post.documentId).collection("comments").addSnapshotListener { c, _ ->
+                db.postComments(post.documentId).addSnapshotListener { c, _ ->
                     val comments = c?.toObjects<Comment>().orEmpty()
                     commentNr.text = comments?.size.toString()
                 }
 
                 postImg.load(post.imageUrl)
-
                 description.text = post.text
-
                 likeNr.text = post.likes.size.toString()
                 userName.text = post.author.fullName
 
@@ -60,9 +62,7 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
                     }
                 }
 
-
-                val userReference = db.collection("people").document(Firebase.auth.currentUser?.uid.toString())
-
+                val userReference = db.users().document(db.currentUser().id)
                 hasLiked = post.likes.contains(userReference)
 
                if (hasLiked) {
@@ -109,8 +109,7 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
 
         private fun updatePostLikes(post: Post, hasLiked: Boolean){
             val db = Firebase.firestore
-
-            val userReference = db.collection("people").document(Firebase.auth.currentUser?.uid.toString())
+            val userReference = db.users().document(db.currentUser().id)
 
             if(hasLiked) {
                 post.likes = post.likes + userReference
@@ -121,7 +120,7 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
                 binding.likeImg.load(R.drawable.like_unfilled)
             }
             binding.likeNr.text = post.likes.size.toString()
-            db.collection("posts").document(post.documentId).set(post)
+            db.post(post.documentId).set(post)
         }
     }
 

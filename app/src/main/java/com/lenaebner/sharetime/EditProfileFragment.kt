@@ -15,6 +15,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
@@ -22,6 +23,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.lenaebner.sharetime.databinding.EditProfileFragmentBinding
 import com.lenaebner.sharetime.databinding.NewPostFragmentBinding
+import com.lenaebner.sharetime.firestore.currentUser
+import com.lenaebner.sharetime.firestore.users
 
 class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
 
@@ -33,9 +36,9 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
         super.onViewCreated(view, savedInstanceState)
 
         binding = EditProfileFragmentBinding.bind(view)
-        val currentUser = Firebase.auth.currentUser
+        val currentUser = db.currentUser()
 
-        db.collection("people").document(currentUser?.uid.toString()).addSnapshotListener{ value, _ ->
+        db.collection("people").document(currentUser.id).addSnapshotListener{ value, _ ->
             val user = value?.toObject<Person>()
             binding.run {
 
@@ -64,10 +67,10 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
                         user.location = location.text.toString()
 
 
-                        val updateUser = db.collection("people").document(currentUser?.uid.toString()).set(user)
+                        val updateUser = db.users().document(currentUser.id).set(user)
                         updateUser.addOnSuccessListener {
                             profilePicture.load(user.profilePicture)
-                            findNavController().navigate(EditProfileFragmentDirections.editToProfile(user.fullName, currentUser?.uid.toString()))
+                            findNavController().navigate(EditProfileFragmentDirections.editToProfile(user.fullName, currentUser.id))
                         }
 
                         updateUser.addOnFailureListener {
@@ -94,20 +97,20 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
                 .contentResolver
                 .openInputStream(imgUri) ?: return
 
-        val currentUser = Firebase.auth.currentUser
+        val currentUser = db.currentUser()
 
-        db.collection("people").document(currentUser?.uid.toString()).get().addOnSuccessListener {
+        db.users().document(currentUser.id).get().addOnSuccessListener {
             val person = it?.toObject<Person>()
 
             if (person != null) {
 
-                val imageRef = Firebase.storage.reference.child("profile-images/${currentUser?.uid.toString()}")
+                val imageRef = Firebase.storage.reference.child("profile-images/${currentUser.id}")
                 val uploadTask = imageRef.putStream(img)
 
                 uploadTask.addOnSuccessListener {
                     imageRef.downloadUrl.addOnSuccessListener { url ->
                         person.profilePicture = url.toString()
-                        db.collection("people").document(currentUser?.uid.toString()).set(person)
+                        db.users().document(currentUser.id).set(person)
                     }
                 }
                 uploadTask.addOnFailureListener {
