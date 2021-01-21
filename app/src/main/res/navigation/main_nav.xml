@@ -88,7 +88,7 @@
     <fragment
         android:id="@+id/newPostFragment"
         android:name="com.lenaebner.sharetime.NewPostFragment"
-        android:label="New post"
+        android:label="New Post"
         tools:layout="@layout/new_post_fragment">
 
         <action
