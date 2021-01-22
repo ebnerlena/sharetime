@@ -54,13 +54,14 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_UTIL) {
                 likeNr.text = post.likes.size.toString()
                 userName.text = post.author.fullName
 
-                if(post.author.profilePicture.isNullOrEmpty()){
-                    profileImg.load(R.drawable.person_grey)
-                }  else {
-                    profileImg.load(post.author.profilePicture) {
-                        transformations(CircleCropTransformation())
-                    }
+                profileImg.load(post.author?.profilePicture) {
+                    placeholder(R.drawable.person_grey)
+                    fallback(R.drawable.person_grey)
+                    error(R.drawable.person_grey)
+                    transformations(CircleCropTransformation())
                 }
+
+
 
                 val userReference = db.users().document(db.currentUser().id)
                 hasLiked = post.likes.contains(userReference)

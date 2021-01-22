@@ -54,15 +54,14 @@ class CommentsFragment : Fragment(R.layout.comments_fragment){
                 binding.run {
                     description.text = post?.text
 
-                    if(post?.author?.profilePicture.isNullOrEmpty()){
-                        profileImg.load(R.drawable.person_grey)
-                    }  else {
-                        profileImg.load(post?.author?.profilePicture) {
-                            transformations(CircleCropTransformation())
-                        }
+                    profileImg.load(post?.author?.profilePicture) {
+                        placeholder(R.drawable.person_grey)
+                        fallback(R.drawable.person_grey)
+                        error(R.drawable.person_grey)
+                        transformations(CircleCropTransformation())
                     }
-                    postImg.load(post?.imageUrl)
 
+                    postImg.load(post?.imageUrl)
 
                     val dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM)
                     timestamp.text = dateFormat.format(post?.timestamp?.toDate())

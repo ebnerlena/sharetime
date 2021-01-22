@@ -25,14 +25,11 @@ class CommentAdapter  : ListAdapter<Comment, CommentAdapter.CommentViewHolder>(D
                 fun bindComment(comment: Comment) {
                     binding.comment.text = comment.text
 
-                    if(comment.author.profilePicture.isNullOrEmpty()) {
-                        binding.profileImg.load(R.drawable.person_grey)
-
-                    } else {
-                        binding.profileImg.load(comment.author?.profilePicture) {
-                            fallback(R.drawable.person_grey)
-                            transformations(CircleCropTransformation())
-                        }
+                    binding.profileImg.load(comment.author?.profilePicture) {
+                        placeholder(R.drawable.person_grey)
+                        fallback(R.drawable.person_grey)
+                        error(R.drawable.person_grey)
+                        transformations(CircleCropTransformation())
                     }
 
                     val dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM)

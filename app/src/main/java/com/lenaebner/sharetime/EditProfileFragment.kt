@@ -42,10 +42,10 @@ class EditProfileFragment : Fragment(R.layout.edit_profile_fragment){
             val user = value?.toObject<Person>()
             binding.run {
 
-                if(!user?.profilePicture.isNullOrEmpty()) {
-                    profilePicture.load(user?.profilePicture)
-                } else {
-                    uploadPicture.visibility = VISIBLE
+                profilePicture.load(user?.profilePicture) {
+                    placeholder(R.drawable.person_grey)
+                    fallback(R.drawable.person_grey)
+                    error(R.drawable.person_grey)
                 }
 
                 profilePicture.setOnClickListener {
